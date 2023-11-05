@@ -1,24 +1,26 @@
+import java.util.ArrayList;
+import java.util.List;
 
 //define List Node
-class ListNode<T>{
+class Node<T>{
 	T data;
 	Node<T> next;
 
-	public ListNode(T data){
+	public Node(T data){
 		this.data = data;
-		this.next = Null;
+		this.next = null;
 	}
 }
 
 //define linked list
-public class SingleLinkedList<T>{
+class SingleLinkedList<T>{
 	private Node<T> head;
 	private Node<T> tail;
 	private int size;
 
 	public SingleLinkedList(){
-		head = Null;
-		tail = Null;
+		head = null;
+		tail = null;
 		size = 0;
 	}
 
@@ -123,7 +125,7 @@ public class SingleLinkedList<T>{
         	return;
         }
         if (index == size) {
-        	pushBack;
+        	pushBack(value);
         	return;
         }
         Node<T> newNode = new Node<>(value);
@@ -137,13 +139,11 @@ public class SingleLinkedList<T>{
 	}
 	//remove a node from the list by its position, change the referece of the node that point to them to the reference of next node from the deleted node
 	public void erase(int index){
-		String success_msg = "Node deleted successfully at index" + (String)index;
-        String fail_msg = "Error: index "+ (String)index + " out of range, unable to delete"
 		if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index out of bounds");
         }
-        if (head = null) {
-        	return "List is empty";
+        if (head == null) {
+        	return;
         }
         if (index == 0) {
         	popFront();
@@ -203,4 +203,18 @@ public class SingleLinkedList<T>{
         }
     }
 
+}
+
+public class Main{
+	public static void main(String[] args) {
+		SingleLinkedList<Integer> list = new SingleLinkedList<>();
+		list.pushBack(1);
+		list.pushBack(2);
+		list.pushBack(3);
+		list.pushBack(2);
+
+		System.out.println(list.search(2)); // [1, 3]
+		list.reverse();
+		System.out.println(list.search(2)); // [0, 2]
+	}
 }
