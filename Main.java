@@ -1,3 +1,4 @@
+//import lib
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,8 +100,8 @@ class SingleLinkedList<T>{
 			current = current.next;
 		}
 		return current.data;
-
 	}
+
 	//get value of front item
 	public T front(){
 		if(head == null){
@@ -108,6 +109,7 @@ class SingleLinkedList<T>{
 		}
 		return head.data;
 	}
+
 	//get value of end item
 	public T back(){
 		if(tail == null){
@@ -115,6 +117,7 @@ class SingleLinkedList<T>{
 		}
 		return tail.data;
 	}
+
 	//insert value at index, put value at position index so current item at that index is pointed to the new item at index, index starts at 0
 	public void insert(int index, T value){
 		if (index < 0 || index > size) {
@@ -137,6 +140,7 @@ class SingleLinkedList<T>{
         current.next = newNode;
         size++;
 	}
+
 	//remove a node from the list by its position, change the referece of the node that point to them to the reference of next node from the deleted node
 	public void erase(int index){
 		if (index < 0 || index >= size) {
@@ -160,6 +164,7 @@ class SingleLinkedList<T>{
         current.next = current.next.next;
         size--;
 	}
+
 	//search list and return the array that containt the position of the value that matched, index start at 0
 	public List<Integer> search(T value){
 		List<Integer> indexes = new ArrayList<>();
@@ -172,6 +177,7 @@ class SingleLinkedList<T>{
 		}
 		return indexes;
 	}
+
 	//reverse the list
 	public void reverse(){
 		if (size <= 1) {
@@ -188,12 +194,14 @@ class SingleLinkedList<T>{
 		}
 		head = prev;
 	}
+
 	//empty the list
 	public void clear() {
         head = null;
         tail = null;
         size = 0;
     }
+
     //outputs all value of list
     public void print(){
     	Node<T> current_node = this.head;
@@ -205,16 +213,22 @@ class SingleLinkedList<T>{
 
 }
 
+//Test class
 public class Main{
 	public static void main(String[] args) {
 		SingleLinkedList<Integer> list = new SingleLinkedList<>();
 		list.pushBack(1);
 		list.pushBack(2);
 		list.pushBack(3);
-		list.pushBack(2);
+		list.pushBack(4);
 
-		System.out.println(list.search(2)); // [1, 3]
-		list.reverse();
-		System.out.println(list.search(2)); // [0, 2]
+		//list.print(); // 1 2 3 4
+		//list.reverse();
+		//list.print(); // 4 3 2 1
+		list.insert(3, 10);
+		//list.print(); // 1 2 3 10 4
+		list.erase(4);
+		System.out.print(list.search(4)); // []
+
 	}
 }
