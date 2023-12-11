@@ -2,27 +2,24 @@
 import java.util.ArrayList;
 import java.util.List;
 
-
 //define List Node
 class Node<T>{
 	T data;
 	Node<T> next;
-	Node<T> prev;
 
 	public Node(T data){
 		this.data = data;
 		this.next = null;
-		this.prev = null;
 	}
 }
 
 //define linked list
-class DoubleLinkedList<T>{
+class SingleLinkedList<T>{
 	private Node<T> head;
 	private Node<T> tail;
 	private int size;
 
-	public DoubleLinkedList(){
+	public SingleLinkedList(){
 		head = null;
 		tail = null;
 		size = 0;
@@ -32,7 +29,7 @@ class DoubleLinkedList<T>{
 		return this.size;
 	}
 
-	public boolean isEmpty(){
+	public boolean isEmty(){
 		return size == 0;
 	}
 	//"push an item to the front of the list"
@@ -44,7 +41,7 @@ class DoubleLinkedList<T>{
             head.prev = newNode;
         }
 		head = newNode;
-		if(isEmpty()){
+		if(size == 0){
 			tail = head;
 		}
 		size++;
@@ -63,22 +60,17 @@ class DoubleLinkedList<T>{
 		return value;
 	}
 	//"add item to end of list"
-	public void pushBack(T value) {
-	    Node<T> newNode = new Node<>(value);
-	    newNode.next = null;
-	    newNode.prev = tail;
-
-	    if (tail != null) {
-	        tail.next = newNode;
-	    }
-
-	    tail = newNode;
-
-	    if (isEmpty()) {
-	        head = newNode;
-	    }
-
-	    size++;
+	public void pushBack(T value){
+		Node<T> newNode = new Node<>(value);
+		if(head == null){
+			head = newNode;
+			tail = newNode;
+		}
+		else {
+			tail.next = newNode;
+			tail = newNode;
+		}
+		size++;
 	}
 	//"remove end item and return its value"
 	public T popBack(){
@@ -178,16 +170,33 @@ class DoubleLinkedList<T>{
 	}
 
 	//search list and return the array that containt the position of the value that matched, index start at 0
-	public String search(T value){
-		String indexes = "";
+	public List<Integer> search(T value){
+		List<Integer> indexes = new ArrayList<>();
 		Node<T> current = head;
 		for (int i =0; i < size; i++) {
 			if (current.data.equals(value)) {
-				indexes = indexes +" "+ i;
+				indexes.add(i);
 			}
 			current = current.next;
 		}
 		return indexes;
+	}
+
+	//reverse the list
+	public void reverse(){
+		if (size <= 1) {
+			return;
+		}
+		Node<T> prev = null;
+		Node<T> current = head;
+		Node<T> next = null;
+		while(current != null){
+			next = current.next;
+			current.next = prev;
+			prev =current;
+			current = next;
+		}
+		head = prev;
 	}
 
 	//empty the list
@@ -198,57 +207,32 @@ class DoubleLinkedList<T>{
     }
 
     //outputs all value of list
-    public String toString() {
-        String result = "Double Linked List: [";
-        Node<T> current = head;
-
-        while (current != null) {
-            result += current.data;
-            if (current.next != null) {
-                result += " <-> ";
-            }
-            current = current.next;
+    public void print(){
+    	Node<T> current_node = this.head;
+        while (current_node != null){
+        	System.out.print(current_node.data + " ");
+            current_node = current_node.next;
         }
-
-        result += "]";
-        return result;
     }
+
 }
 
 //Test class
-public class Main {
-    public static void main(String[] args) {
-        DoubleLinkedList<Integer> list = new DoubleLinkedList<>();
+public class Main{
+	public static void main(String[] args) {
+		SingleLinkedList<Integer> list = new SingleLinkedList<>();
+		list.pushBack(1);
+		list.pushBack(2);
+		list.pushBack(3);
+		list.pushBack(4);
 
-		list.clear();
+		//list.print(); // 1 2 3 4
+		//list.reverse();
+		//list.print(); // 4 3 2 1
+		list.insert(3, 10);
+		//list.print(); // 1 2 3 10 4
+		list.erase(4);
+		System.out.print(list.search(4)); // []
 
-		list.insert(0,1);
-
-		list.insert(1,2);
-
-		list.insert(0,2);
-
-		list.insert(0,3);
-
-		list.insert(2,4);
-
-		printListInfor(list);
-	    System.out.println(list.search(3));
-	    System.out.println(list.search(2));
-	    System.out.println(list.search(1));
-	    System.out.println(list.search(0));
-
-    }
-
-    //method for testing
-    //print head,tail and the actual list
-    public static void printListInfor(DoubleLinkedList list){
-	    if (!list.isEmpty()) {
-	        System.out.println("Front: " + list.front() + " Back: " + list.back());
-	    } else {
-	        System.out.println("The list is empty.");
-	    }
-	    System.out.println("Actual list: " + list.toString());
-	    System.out.println();
-    }
+	}
 }
